@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "trinity-fashion"
+version = "0.1.0"
+description = ""
+authors = ["antoine@thefurnitureguys.com <antoine@thefurnitureguys.ca>"]
+readme = "README.md"
+packages = [{include = "trinity_fashion"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.81.0"
+uvicorn = "^0.18.3"
+Authlib = "^1.0.1"
+itsdangerous = "^2.1.2"
+httpx = "^0.23.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
