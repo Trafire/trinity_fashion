@@ -1,5 +1,4 @@
-
-# tutorial:  https://blog.hanchon.live/guides/google-login-with-fastapi/ 
+# tutorial:  https://blog.hanchon.live/guides/google-login-with-fastapi/
 
 
 import os
@@ -24,7 +23,8 @@ if GOOGLE_CLIENT_ID is None or GOOGLE_CLIENT_SECRET is None:
     raise BaseException('Missing env variables')
 
 # Set up OAuth
-config_data = {'GOOGLE_CLIENT_ID': GOOGLE_CLIENT_ID, 'GOOGLE_CLIENT_SECRET': GOOGLE_CLIENT_SECRET}
+config_data = {'GOOGLE_CLIENT_ID': GOOGLE_CLIENT_ID,
+               'GOOGLE_CLIENT_SECRET': GOOGLE_CLIENT_SECRET}
 starlette_config = Config(environ=config_data)
 oauth = OAuth(starlette_config)
 oauth.register(
@@ -57,7 +57,8 @@ async def logout(request: Request):
 
 @app.route('/login')
 async def login(request: Request):
-    redirect_uri = request.url_for('auth')  # This creates the url for our /auth endpoint
+    redirect_uri = request.url_for(
+        'auth')  # This creates the url for our /auth endpoint
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
 
@@ -67,8 +68,7 @@ async def auth(request: Request):
         access_token = await oauth.google.authorize_access_token(request)
     except OAuthError:
         return RedirectResponse(url='/')
-    user_data = await oauth.google.parse_id_token(request, access_token)
-    request.session['user'] = dict(user_data)
+    request.session['user'] = access_token['userinfo']
     return RedirectResponse(url='/')
 
 
